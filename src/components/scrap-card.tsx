@@ -4,16 +4,32 @@ import { formatDateTime } from "@/lib/format";
 import { ArticleStatusText } from "@/components/article-status-text";
 import { MemoEditor } from "@/components/memo-editor";
 import { DeleteScrapButton } from "@/components/delete-scrap-button";
+import { DeleteMemoRevisionButton } from "@/components/delete-memo-revision-button";
 import { Icon } from "@/components/icon";
 import Link from "next/link";
+import { MoveFolderButton, type FolderOption } from "@/components/move-folder-button";
+
+/**
+ * 메모 날짜 문구.
+ * - 처음 쓴 메모면 "메모 작성 {처음 작성한 날짜}" (스크랩하면서 함께 쓴 메모도 표시)
+ * - 고친 적이 있으면 "메모 수정 {마지막으로 고친 날짜}"
+ */
+function memoDateLabel(scrap: ScrapWithArticle): string | undefined {
+  if (!scrap.memo || !scrap.memoUpdatedAt) return undefined;
+  // 이전 메모를 지워도 판단이 바뀌지 않도록, 이력 개수가 아니라 처음 작성일과 비교한다
+  const created = scrap.memoCreatedAt ?? scrap.memoUpdatedAt;
+  const edited = scrap.memoUpdatedAt !== created;
+  return `${formatDateTime(edited ? scrap.memoUpdatedAt : created)} ${edited ? "수정됨" : ""}`;
+}
 
 // 스크랩 카드 (MD3 outlined card). 텍스트 중심이며, 기사 영역과 메모 영역을 시각적으로 분리한다.
-export function ScrapCard({ scrap }: { scrap: ScrapWithArticle }) {
+export function ScrapCard({ scrap, folders }: { scrap: ScrapWithArticle; folders: FolderOption[] }) {
   const { article } = scrap;
   const deleted = article.status === "deleted";
 
   return (
-    <article className="md-card overflow-hidden">
+    // 폴더 이동 팝업이 카드 밖으로 펼쳐질 수 있도록 overflow를 자르지 않는다
+    <article className="md-card">
       {/* 기사 영역 */}
       <div className="flex gap-4 p-4">
         <div className="min-w-0 flex-1">
@@ -49,7 +65,7 @@ export function ScrapCard({ scrap }: { scrap: ScrapWithArticle }) {
         <MemoEditor
           scrapId={scrap.id}
           memo={scrap.memo}
-          memoUpdatedLabel={scrap.memoUpdatedAt ? formatDateTime(scrap.memoUpdatedAt) : undefined}
+          memoDateLabel={memoDateLabel(scrap)}
         />
         {scrap.memoHistory.length > 0 && (
           <details className="group mt-2 text-sm">
@@ -62,9 +78,12 @@ export function ScrapCard({ scrap }: { scrap: ScrapWithArticle }) {
                 .slice()
                 .reverse()
                 .map((h) => (
-                  <li key={h.savedAt} className="border-l-2 border-tertiary/40 pl-3">
-                    <p className="whitespace-pre-wrap opacity-80">{h.content}</p>
-                    <p className="text-xs opacity-60">{formatDateTime(h.savedAt)}</p>
+                  <li key={h.savedAt} className="flex items-start gap-2 border-l-2 border-tertiary/40 pl-3">
+                    <div className="min-w-0 flex-1">
+                      <p className="whitespace-pre-wrap opacity-80">{h.content}</p>
+                      <p className="text-xs opacity-60">{formatDateTime(h.savedAt)}</p>
+                    </div>
+                    <DeleteMemoRevisionButton scrapId={scrap.id} savedAt={h.savedAt} />
                   </li>
                 ))}
             </ol>
@@ -72,8 +91,9 @@ export function ScrapCard({ scrap }: { scrap: ScrapWithArticle }) {
         )}
       </div>
 
-      {/* 스크랩 정보 · 이후 여론 */}
-      <div className="flex flex-wrap items-center gap-x-4 gap-y-1 py-2 pr-1 pl-4 text-xs text-on-surface-variant">
+      {/* 폴더 · 스크랩 정보 · 이후 여론 */}
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 py-2 pr-1 pl-4 text-xs text-on-surface-variant">
+        <MoveFolderButton scrapId={scrap.id} currentFolderId={scrap.folderId} folders={folders} />
         <span>스크랩한 날짜 {formatDateTime(scrap.scrappedAt)}</span>
         <span className="ml-auto flex items-center gap-1">
           {deleted ? (

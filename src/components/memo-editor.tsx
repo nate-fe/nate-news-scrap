@@ -8,7 +8,8 @@ import { Icon } from "@/components/icon";
 interface Props {
   scrapId: string;
   memo?: string;
-  memoUpdatedLabel?: string;
+  /** 예: "메모 작성 2026. 10. 29. 13:23", "메모 수정 …". 없으면 표시하지 않는다. */
+  memoDateLabel?: string;
 }
 
 function MemoLabel() {
@@ -19,7 +20,7 @@ function MemoLabel() {
   );
 }
 
-export function MemoEditor({ scrapId, memo, memoUpdatedLabel }: Props) {
+export function MemoEditor({ scrapId, memo, memoDateLabel }: Props) {
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState(memo ?? "");
   const [state, formAction, pending] = useActionState(
@@ -53,7 +54,7 @@ export function MemoEditor({ scrapId, memo, memoUpdatedLabel }: Props) {
         ) : (
           <p className="text-sm opacity-60">아직 메모가 없어요.</p>
         )}
-        {memoUpdatedLabel && <p className="mt-1 text-xs opacity-60">메모 수정 {memoUpdatedLabel}</p>}
+        {memoDateLabel && <p className="mt-1 text-xs opacity-60">{memoDateLabel}</p>}
       </div>
     );
   }

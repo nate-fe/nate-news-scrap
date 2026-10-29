@@ -5,6 +5,7 @@ import type { MyScrapFilter } from "@/types/scrap";
 // 필터를 바꿀 때는 page를 넘기지 않아 1페이지로 돌아간다.
 export function scrapListHref(filter: MyScrapFilter, page = 1) {
   const sp = new URLSearchParams();
+  if (filter.folder) sp.set("folder", filter.folder);
   if (filter.q?.trim()) sp.set("q", filter.q.trim());
   if (filter.press) sp.set("press", filter.press);
   if (filter.memoOnly) sp.set("memo", "1");

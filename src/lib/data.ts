@@ -9,6 +9,7 @@ import type {
   MyScrapFilter,
   RankingPeriod,
   Scrap,
+  ScrapFolderSummary,
   ScrapWithArticle,
 } from "@/types/scrap";
 
@@ -61,6 +62,7 @@ export async function getMyScraps(filter: MyScrapFilter = {}): Promise<ScrapWith
       return [{ ...s, article, commentsSinceScrap: countCommentsSince(s.articleId, s.scrappedAt) }];
     })
     .filter((s) => {
+      if (filter.folder && s.folderId !== filter.folder) return false;
       if (filter.press && s.article.pressName !== filter.press) return false;
       if (filter.memoOnly && !s.memo) return false;
       if (q) {
@@ -71,6 +73,33 @@ export async function getMyScraps(filter: MyScrapFilter = {}): Promise<ScrapWith
       return true;
     })
     .sort((a, b) => b.scrappedAt.localeCompare(a.scrappedAt));
+}
+
+/** 내 스크랩 폴더 목록 (만든 순서). 폴더마다 담긴 개수와 대표 이미지를 함께 준다. */
+export async function getMyFolders(): Promise<ScrapFolderSummary[]> {
+  await connection();
+  const { folders, scraps } = getStore();
+  const mine = scraps
+    .filter((s) => s.userId === CURRENT_USER_ID)
+    .sort((a, b) => b.scrappedAt.localeCompare(a.scrappedAt));
+  return folders
+    .filter((f) => f.userId === CURRENT_USER_ID)
+    .sort((a, b) => a.createdAt.localeCompare(b.createdAt))
+    .map((f) => {
+      const inFolder = mine.filter((s) => s.folderId === f.id);
+      const cover = inFolder.map((s) => findArticle(s.articleId)).find((a) => a?.imageUrl && a.status !== "deleted");
+      return { ...f, count: inFolder.length, coverImageUrl: cover?.imageUrl };
+    });
+}
+
+/** '모든 스크랩' 타일용: 내 스크랩 전체 개수와 대표 이미지 */
+export async function getMyScrapsSummary(): Promise<{ count: number; coverImageUrl?: string }> {
+  await connection();
+  const mine = getStore()
+    .scraps.filter((s) => s.userId === CURRENT_USER_ID)
+    .sort((a, b) => b.scrappedAt.localeCompare(a.scrappedAt));
+  const cover = mine.map((s) => findArticle(s.articleId)).find((a) => a?.imageUrl && a.status !== "deleted");
+  return { count: mine.length, coverImageUrl: cover?.imageUrl };
 }
 
 /** 내 스크랩함 필터용 언론사 목록 */

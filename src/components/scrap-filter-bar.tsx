@@ -31,15 +31,16 @@ export function ScrapFilterBar({ filter, pressNames }: { filter: MyScrapFilter; 
   };
 
   return (
-    <div className="mb-4 space-y-3">
-      {/* MD3 search bar: 지우기(X)·검색 버튼을 안에 둔다 */}
+    // 검색창 · 언론사 · 메모 필터를 한 줄에 둔다 (좁은 화면에서는 검색창만 윗줄로 넘어간다)
+    <div className="mb-4 flex flex-wrap items-center gap-2 text-sm">
+      {/* 검색창: 필터 칩과 같은 높이. 지우기(X)·검색 버튼을 안에 둔다 */}
       <form
         role="search"
         onSubmit={(e) => {
           e.preventDefault();
           apply({ q });
         }}
-        className="relative flex h-14 items-center gap-1 overflow-hidden rounded-full bg-surface pr-1 pl-5 focus-within:shadow-elevation-1"
+        className="relative flex h-8 w-full items-center overflow-hidden rounded-full border border-outline-variant bg-surface pl-3.5 focus-within:border-primary sm:w-64"
       >
         <input
           ref={inputRef}
@@ -49,45 +50,43 @@ export function ScrapFilterBar({ filter, pressNames }: { filter: MyScrapFilter; 
           onChange={(e) => setQ(e.target.value)}
           placeholder="제목·메모 검색"
           aria-label="제목·메모 검색"
-          className="h-full min-w-0 flex-1 bg-transparent text-base text-on-surface outline-none placeholder:text-on-surface-variant"
+          className="h-full min-w-0 flex-1 bg-transparent text-sm text-on-surface outline-none placeholder:text-on-surface-variant"
         />
         {q.length > 0 && (
-          <button type="button" onClick={clearSearch} aria-label="검색어 지우기" className="md-icon-btn">
-            <Icon name="close" size={20} />
+          <button type="button" onClick={clearSearch} aria-label="검색어 지우기" className="md-icon-btn size-7">
+            <Icon name="close" size={16} />
           </button>
         )}
-        <button type="submit" aria-label="검색" className="md-icon-btn size-12 text-on-surface">
-          <Icon name="search" size={24} />
+        <button type="submit" aria-label="검색" className="md-icon-btn mr-0.5 size-7 text-on-surface">
+          <Icon name="search" size={18} />
         </button>
         {/* MD3 linear progress: 목록을 다시 불러오는 동안 */}
         {pending && <span className="absolute inset-x-0 bottom-0 h-0.5 animate-pulse bg-primary" />}
       </form>
 
-      <div className="flex flex-wrap items-center gap-2 text-sm">
-        <select
-          aria-label="언론사"
-          value={filter.press ?? ""}
-          onChange={(e) => apply({ press: e.target.value || undefined })}
-          className={`md-chip pr-2 ${filter.press ? "md-chip-selected" : ""}`}
-        >
-          <option value="">전체 언론사</option>
-          {pressNames.map((n) => (
-            <option key={n} value={n}>
-              {n}
-            </option>
-          ))}
-        </select>
-        {/* filter chip */}
-        <button
-          type="button"
-          aria-pressed={!!filter.memoOnly}
-          onClick={() => apply({ memoOnly: !filter.memoOnly })}
-          className={`md-chip ${filter.memoOnly ? "md-chip-selected" : ""}`}
-        >
-          {filter.memoOnly && <Icon name="check" size={18} />}
-          메모 있는 것만
-        </button>
-      </div>
+      <select
+        aria-label="언론사"
+        value={filter.press ?? ""}
+        onChange={(e) => apply({ press: e.target.value || undefined })}
+        className={`md-chip pr-2 ${filter.press ? "md-chip-selected" : ""}`}
+      >
+        <option value="">전체 언론사</option>
+        {pressNames.map((n) => (
+          <option key={n} value={n}>
+            {n}
+          </option>
+        ))}
+      </select>
+      {/* filter chip */}
+      <button
+        type="button"
+        aria-pressed={!!filter.memoOnly}
+        onClick={() => apply({ memoOnly: !filter.memoOnly })}
+        className={`md-chip ${filter.memoOnly ? "md-chip-selected" : ""}`}
+      >
+        {filter.memoOnly && <Icon name="check" size={18} />}
+        메모 있는 것만
+      </button>
     </div>
   );
 }

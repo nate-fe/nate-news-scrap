@@ -3,6 +3,7 @@
 import { useCallback, useState } from "react";
 import { ScrapPopover, UnscrapPopover } from "@/components/scrap-popover";
 import { Icon } from "@/components/icon";
+import type { FolderOption } from "@/components/move-folder-button";
 
 // 네이트 뉴스 기사 댓글 영역의 머리줄.
 // [댓글 N] ............ [스크랩하기] | [MY댓글 >]
@@ -12,9 +13,11 @@ export function CommentScrapHeader({
   articleId,
   commentCount,
   scrapId,
+  folders,
 }: {
   articleId: string;
   commentCount: number;
+  folders: FolderOption[];
   /** 내가 이 기사를 스크랩했으면 그 스크랩 id */
   scrapId?: string;
 }) {
@@ -50,7 +53,7 @@ export function CommentScrapHeader({
         (scrapped ? (
           <UnscrapPopover scrapId={scrapId} onClose={close} />
         ) : (
-          <ScrapPopover articleId={articleId} onClose={close} />
+          <ScrapPopover articleId={articleId} folders={folders} onClose={close} />
         ))}
     </div>
   );

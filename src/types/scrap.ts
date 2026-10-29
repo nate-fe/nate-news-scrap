@@ -38,9 +38,29 @@ export interface Scrap {
   articleId: string;
   scrappedAt: string; // ISO
   memo?: string;
+  /** 메모를 처음 쓴 시각. 메모를 비우면 함께 지운다. */
+  memoCreatedAt?: string; // ISO
+  /** 메모를 마지막으로 저장한 시각 */
   memoUpdatedAt?: string; // ISO
   /** 메모 수정 이력 (선택 기능). 수정 직전 내용을 쌓는다. */
   memoHistory: MemoRevision[];
+  /** 담긴 스크랩 폴더. 없으면 '모든 스크랩'에만 보인다. (인스타그램 '저장됨'의 컬렉션과 같은 개념) */
+  folderId?: string;
+}
+
+/** 스크랩 폴더. 본인만 보는 분류용이다. */
+export interface ScrapFolder {
+  id: string;
+  userId: string;
+  name: string;
+  createdAt: string; // ISO
+}
+
+/** 폴더 타일에 쓰는 요약 */
+export interface ScrapFolderSummary extends ScrapFolder {
+  count: number;
+  /** 폴더 대표 이미지: 담긴 기사 중 가장 최근에 스크랩한 기사의 이미지 */
+  coverImageUrl?: string;
 }
 
 /** 내 스크랩함 카드에 쓰는 조합 데이터 */
@@ -54,6 +74,8 @@ export interface MyScrapFilter {
   q?: string;
   press?: string;
   memoOnly?: boolean;
+  /** 이 폴더에 담긴 스크랩만 */
+  folder?: string;
 }
 
 /** 스크랩 모음 메인: 기사 단위 익명 집계 */

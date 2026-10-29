@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { getArticle, getMyScrapForArticle, getVisibleComments } from "@/lib/data";
+import { getArticle, getMyFolders, getMyScrapForArticle, getVisibleComments } from "@/lib/data";
 import { formatDateTime } from "@/lib/format";
 import { ArticleStatusText } from "@/components/article-status-text";
 import { CommentScrapHeader } from "@/components/comment-scrap-header";
@@ -20,7 +20,12 @@ export async function ArticleMock({ id }: { id: string }) {
     return <div className="md-card p-8 text-center text-on-surface-variant">삭제된 기사입니다.</div>;
   }
 
-  const [myScrap, comments] = await Promise.all([getMyScrapForArticle(id), getVisibleComments(id)]);
+  const [myScrap, comments, folders] = await Promise.all([
+    getMyScrapForArticle(id),
+    getVisibleComments(id),
+    getMyFolders(),
+  ]);
+  const folderOptions = folders.map((f) => ({ id: f.id, name: f.name }));
 
   return (
     <div className="space-y-3">
@@ -47,7 +52,7 @@ export async function ArticleMock({ id }: { id: string }) {
           </div>
           {/* 팝업 위치 기준: 아이콘 줄 오른쪽 끝 */}
           <div className="relative flex items-center gap-1.5 sm:gap-2">
-            <ScrapIconButton articleId={article.id} scrapId={myScrap?.id} />
+            <ScrapIconButton articleId={article.id} scrapId={myScrap?.id} folders={folderOptions} />
             {/* 이하 기존 네이트 뉴스 기능 자리 (목업) */}
             <span className="relative">
               <span className="absolute -top-8 left-1/2 -translate-x-1/2 rounded-full bg-[#eceefe] px-2 py-0.5 text-xs font-bold whitespace-nowrap text-[#5a5fd6]">
@@ -80,7 +85,12 @@ export async function ArticleMock({ id }: { id: string }) {
       </article>
 
       <section id="comments" className="md-card scroll-mt-20 p-5 sm:p-6">
-        <CommentScrapHeader articleId={article.id} commentCount={comments.length} scrapId={myScrap?.id} />
+        <CommentScrapHeader
+          articleId={article.id}
+          commentCount={comments.length}
+          scrapId={myScrap?.id}
+          folders={folderOptions}
+        />
         {/* 댓글 입력창 자리 (목업) */}
         <div className="mb-2 rounded-md-md bg-surface-container-high px-4 py-3 text-sm text-on-surface-variant">
           로그인 해주세요

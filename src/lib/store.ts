@@ -5,7 +5,7 @@ import { createSeed, type SeedData } from "@/lib/mock/seed";
 // 개발 서버의 HMR에도 데이터가 유지되도록 globalThis에 둔다.
 
 /** 목업 데이터(seed.ts)를 바꿨을 때 올리면, 실행 중인 서버도 새 목업으로 다시 채운다. */
-const SEED_VERSION = 11;
+const SEED_VERSION = 13;
 
 const g = globalThis as typeof globalThis & {
   __scrapStore?: { version: number; data: SeedData };

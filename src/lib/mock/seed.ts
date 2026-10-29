@@ -1,4 +1,4 @@
-import type { Article, Comment, Scrap } from "@/types/scrap";
+import type { Article, Comment, Scrap, ScrapFolder } from "@/types/scrap";
 import { CURRENT_USER_ID } from "@/lib/config";
 import { mockCommentAuthor, mockCommentContent } from "@/lib/mock/comments";
 
@@ -139,6 +139,7 @@ export interface SeedData {
   articles: Article[];
   comments: Comment[];
   scraps: Scrap[];
+  folders: ScrapFolder[];
 }
 
 export function createSeed(now = Date.now()): SeedData {
@@ -163,6 +164,7 @@ export function createSeed(now = Date.now()): SeedData {
     scrappedAt: hoursAgo(now, scrappedHoursAgo),
     memoHistory: [],
     ...extra,
+    memoCreatedAt: extra.memo ? (extra.memoHistory?.[0]?.savedAt ?? extra.memoUpdatedAt) : undefined,
   });
 
   // 다른 사용자들의 스크랩 (메인 페이지 익명 집계용)
@@ -231,5 +233,18 @@ export function createSeed(now = Date.now()): SeedData {
     scrap(CURRENT_USER_ID, "a16", 14),
   ];
 
-  return { articles, comments, scraps: [...otherScraps, ...myScraps] };
+  // 내 스크랩 폴더 (인스타그램 '저장됨'의 컬렉션처럼 분류)
+  const folders: ScrapFolder[] = [
+    { id: "f1", userId: CURRENT_USER_ID, name: "부동산·경제", createdAt: hoursAgo(now, 160) },
+    { id: "f2", userId: CURRENT_USER_ID, name: "IT·과학", createdAt: hoursAgo(now, 150) },
+    { id: "f3", userId: CURRENT_USER_ID, name: "나중에 다시 볼 기사", createdAt: hoursAgo(now, 140) },
+  ];
+  const folderOf: Record<string, string> = {
+    a2: "f1", a4: "f1", a9: "f1", a13: "f1", a16: "f1",
+    a3: "f2", a11: "f2",
+    a1: "f3", a7: "f3", a12: "f3",
+  };
+  for (const s of myScraps) s.folderId = folderOf[s.articleId];
+
+  return { articles, comments, scraps: [...otherScraps, ...myScraps], folders };
 }
