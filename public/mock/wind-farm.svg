@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="400" viewBox="0 0 640 400">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1f3458"/>
+      <stop offset="0.45" stop-color="#8a6f8f"/>
+      <stop offset="0.75" stop-color="#f08a4b"/>
+      <stop offset="1" stop-color="#f9c784"/>
+    </linearGradient>
+    <linearGradient id="field" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#6f6a33"/>
+      <stop offset="1" stop-color="#2b2c16"/>
+    </linearGradient>
+    <radialGradient id="sun" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#fff4d6"/>
+      <stop offset="0.4" stop-color="#ffd18a" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#ffb066" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="vignette" cx="0.5" cy="0.5" r="0.75">
+      <stop offset="0.6" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#000" stop-opacity="0.4"/>
+    </radialGradient>
+    <rect id="tower" x="-2.5" y="0" width="5" height="160" fill="#e8e6ec"/>
+    <g id="rotor">
+      <path d="M0 0 L-4 -6 L0 -92 L4 -6 Z" fill="#f4f2f7"/>
+      <path d="M0 0 L-4 -6 L0 -92 L4 -6 Z" fill="#e3e1e8" transform="rotate(120)"/>
+      <path d="M0 0 L-4 -6 L0 -92 L4 -6 Z" fill="#ebe9ef" transform="rotate(240)"/>
+      <circle cx="0" cy="0" r="5" fill="#f4f2f7"/>
+    </g>
+  </defs>
+
+  <rect width="640" height="400" fill="url(#sky)"/>
+  <circle cx="470" cy="270" r="90" fill="url(#sun)"/>
+
+  <!-- 먼 언덕 -->
+  <path d="M0 290 Q120 250 240 282 T480 270 T640 280 L640 400 L0 400 Z" fill="#5a4a5e" opacity="0.7"/>
+  <path d="M0 310 Q160 280 320 305 T640 300 L640 400 L0 400 Z" fill="#4a4740"/>
+
+  <!-- 먼 풍력발전기 -->
+  <g opacity="0.75">
+    <g transform="translate(540 230) scale(0.45)"><use href="#tower"/><use href="#rotor" transform="rotate(12)"/></g>
+    <g transform="translate(590 240) scale(0.38)"><use href="#tower"/><use href="#rotor" transform="rotate(48)"/></g>
+    <g transform="translate(70 240) scale(0.4)"><use href="#tower"/><use href="#rotor" transform="rotate(30)"/></g>
+  </g>
+
+  <!-- 송전탑과 전선 -->
+  <g stroke="#2a2522" stroke-width="2" fill="none">
+    <path d="M300 320 L312 230 L324 320 M304 290 L320 290 M307 265 L317 265 M294 238 L330 238 M298 250 L326 250"/>
+    <path d="M0 236 Q150 262 294 238 M330 238 Q480 262 640 236"/>
+    <path d="M0 248 Q150 274 298 250 M326 250 Q480 274 640 248"/>
+  </g>
+
+  <!-- 가까운 풍력발전기 -->
+  <g transform="translate(160 160)"><use href="#tower"/><use href="#rotor" transform="rotate(18)"/></g>
+  <g transform="translate(420 190) scale(0.75)"><use href="#tower"/><use href="#rotor" transform="rotate(-24)"/></g>
+
+  <!-- 들판 -->
+  <path d="M0 330 Q200 310 400 328 T640 322 L640 400 L0 400 Z" fill="url(#field)"/>
+  <g stroke="#8c8443" stroke-width="2" opacity="0.5">
+    <path d="M0 360 Q320 340 640 356"/>
+    <path d="M0 380 Q320 362 640 376"/>
+  </g>
+
+  <rect width="640" height="400" fill="url(#vignette)"/>
+</svg>

@@ -1,26 +1,194 @@
 @import "tailwindcss";
 
+/*
+ * Material Design 3 토큰 (라이트 스킴)
+ * 흰 배경 + 무채색 회색 기반, 포인트 컬러(primary)는 #ff2c2e 하나만 쓴다.
+ * 클래스 예: bg-primary, text-on-surface-variant, bg-tertiary-container, border-outline-variant
+ */
+@theme {
+  --font-sans: var(--font-nanum-gothic), "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+
+  /* 포인트 컬러 */
+  --color-primary: #ff2c2e;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #ffeaea;
+  --color-on-primary-container: #c2001b;
+
+  /* 선택 상태(칩·세그먼트·톤 버튼): 무채색 */
+  --color-secondary: #5f6368;
+  --color-on-secondary: #ffffff;
+  --color-secondary-container: #f1f3f4;
+  --color-on-secondary-container: #1f1f1f;
+
+  /* 메모 영역: 흰 기사 영역과 구분되는 옅은 회색 */
+  --color-tertiary: #5f6368;
+  --color-on-tertiary: #ffffff;
+  --color-tertiary-container: #f5f6f7;
+  --color-on-tertiary-container: #1f1f1f;
+
+  --color-error: #d93025;
+
+  /* 기사 상태 텍스트 색: 정정된 기사는 파랑, 삭제된 기사는 포인트 레드 */
+  --color-status-corrected: #1a73e8;
+  --color-status-deleted: #ff2c2e;
+
+  /* 페이지 배경 · 헤더 구분선 (네이트 모바일 뉴스 기준) */
+  --color-background: #f1f4f6;
+  --color-divider: #f3f5f7;
+
+  --color-surface: #ffffff;
+  --color-surface-dim: #dadce0;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #ffffff;
+  --color-surface-container: #f8f9fa;
+  --color-surface-container-high: #f1f3f4;
+  --color-surface-container-highest: #e8eaed;
+  --color-on-surface: #1f1f1f;
+  --color-on-surface-variant: #5f6368;
+  --color-outline: #9aa0a6;
+  --color-outline-variant: #e3e3e3;
+  --color-inverse-surface: #303134;
+  --color-inverse-on-surface: #f1f3f4;
+
+  /* 높이(elevation): 흰 배경에서 과하지 않게 옅게 */
+  --shadow-elevation-1: 0 1px 2px rgb(60 64 67 / 0.15), 0 1px 3px 1px rgb(60 64 67 / 0.08);
+  --shadow-elevation-2: 0 1px 2px rgb(60 64 67 / 0.2), 0 2px 6px 2px rgb(60 64 67 / 0.1);
+  --shadow-elevation-3: 0 4px 8px 3px rgb(60 64 67 / 0.1), 0 1px 3px rgb(60 64 67 / 0.2);
+
+  /* 모서리(shape) */
+  --radius-md-xs: 4px;
+  --radius-md-sm: 8px;
+  --radius-md-md: 12px;
+  /* 페이지 위의 흰 컴포넌트(카드·섹션) 모서리 */
+  --radius-card: 15px;
+  --radius-md-lg: 16px;
+  --radius-md-xl: 28px;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ---------- 버튼 (MD3 Common buttons) ---------- */
+@utility md-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 40px;
+  padding-inline: 24px;
+  border-radius: 9999px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  transition: background-color 150ms, box-shadow 150ms;
+  cursor: pointer;
+  &:disabled {
+    opacity: 0.38;
+    cursor: default;
+  }
 }
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@utility md-btn-filled {
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  &:hover:not(:disabled) {
+    background: color-mix(in srgb, var(--color-on-primary) 8%, var(--color-primary));
+    box-shadow: var(--shadow-elevation-1);
+  }
+}
+@utility md-btn-tonal {
+  background: var(--color-secondary-container);
+  color: var(--color-on-secondary-container);
+  &:hover:not(:disabled) {
+    background: color-mix(in srgb, var(--color-on-secondary-container) 8%, var(--color-secondary-container));
+  }
+}
+@utility md-btn-outlined {
+  border: 1px solid var(--color-outline);
+  color: var(--color-primary);
+  &:hover:not(:disabled) {
+    background: color-mix(in srgb, var(--color-primary) 8%, transparent);
+  }
+}
+@utility md-btn-text {
+  padding-inline: 12px;
+  color: var(--color-primary);
+  &:hover:not(:disabled) {
+    background: color-mix(in srgb, var(--color-primary) 8%, transparent);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* 아이콘 버튼 */
+@utility md-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 9999px;
+  color: var(--color-on-surface-variant);
+  transition: background-color 150ms;
+  cursor: pointer;
+  &:hover:not(:disabled) {
+    background: color-mix(in srgb, var(--color-on-surface-variant) 8%, transparent);
+  }
+  &:disabled {
+    opacity: 0.38;
+  }
 }
+
+/* ---------- 칩 (Filter chips) ---------- */
+@utility md-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding-inline: 12px;
+  border-radius: var(--radius-md-sm);
+  border: 1px solid var(--color-outline-variant);
+  background: var(--color-surface);
+  color: var(--color-on-surface-variant);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 150ms, border-color 150ms;
+  &:hover {
+    background: var(--color-surface-container);
+  }
+}
+/* 회색 페이지 배경 위에서도 구분되도록 진한 테두리로 선택 상태를 표시 */
+@utility md-chip-selected {
+  border-color: var(--color-on-surface);
+  color: var(--color-on-surface);
+}
+
+/* ---------- 텍스트 필드 (Outlined) ---------- */
+@utility md-field {
+  height: 48px;
+  padding-inline: 16px;
+  border-radius: var(--radius-md-xs);
+  border: 1px solid var(--color-outline);
+  background: transparent;
+  color: var(--color-on-surface);
+  font-size: 16px;
+  outline: none;
+  &::placeholder {
+    color: var(--color-on-surface-variant);
+  }
+  &:hover {
+    border-color: var(--color-on-surface);
+  }
+  &:focus {
+    border-color: var(--color-primary);
+    box-shadow: inset 0 0 0 1px var(--color-primary);
+  }
+}
+
+/* ---------- 카드 ---------- */
+/* 회색 페이지 배경 위의 흰 컴포넌트. 테두리·그림자 없이 모서리만 둥글게 (네이트 모바일 뉴스 기준) */
+@utility md-card {
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+}
+

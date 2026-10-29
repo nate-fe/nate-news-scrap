@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="400" viewBox="0 0 640 400">
+  <defs>
+    <linearGradient id="room" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0d1526"/>
+      <stop offset="1" stop-color="#1e2c4a"/>
+    </linearGradient>
+    <linearGradient id="desk" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4a3a2e"/>
+      <stop offset="1" stop-color="#241b15"/>
+    </linearGradient>
+    <linearGradient id="screen" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#14233f"/>
+      <stop offset="1" stop-color="#0b1426"/>
+    </linearGradient>
+    <linearGradient id="body" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#c9ccd3"/>
+      <stop offset="1" stop-color="#7f838c"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#5aa0ff" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#5aa0ff" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="vignette" cx="0.5" cy="0.5" r="0.75">
+      <stop offset="0.55" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#000" stop-opacity="0.5"/>
+    </radialGradient>
+    <filter id="bokeh"><feGaussianBlur stdDeviation="8"/></filter>
+    <filter id="blur2"><feGaussianBlur stdDeviation="1.2"/></filter>
+  </defs>
+
+  <rect width="640" height="400" fill="url(#room)"/>
+  <!-- 배경 보케 -->
+  <g filter="url(#bokeh)">
+    <circle cx="80" cy="70" r="26" fill="#7b5cff" opacity="0.45"/>
+    <circle cx="170" cy="120" r="16" fill="#38bdf8" opacity="0.4"/>
+    <circle cx="540" cy="60" r="30" fill="#f472b6" opacity="0.35"/>
+    <circle cx="600" cy="150" r="18" fill="#60a5fa" opacity="0.4"/>
+    <circle cx="470" cy="110" r="12" fill="#fbbf24" opacity="0.35"/>
+    <circle cx="40" cy="190" r="14" fill="#22d3ee" opacity="0.35"/>
+  </g>
+
+  <ellipse cx="320" cy="200" rx="260" ry="150" fill="url(#glow)"/>
+
+  <!-- 노트북 화면 -->
+  <rect x="170" y="70" width="300" height="190" rx="10" fill="#2a2e36"/>
+  <rect x="180" y="80" width="280" height="170" rx="4" fill="url(#screen)"/>
+  <g filter="url(#blur2)">
+    <rect x="196" y="98" width="70" height="7" rx="3" fill="#c084fc"/>
+    <rect x="272" y="98" width="110" height="7" rx="3" fill="#7dd3fc"/>
+    <rect x="212" y="114" width="90" height="7" rx="3" fill="#86efac"/>
+    <rect x="308" y="114" width="60" height="7" rx="3" fill="#fde68a"/>
+    <rect x="212" y="130" width="140" height="7" rx="3" fill="#7dd3fc"/>
+    <rect x="228" y="146" width="80" height="7" rx="3" fill="#f9a8d4"/>
+    <rect x="314" y="146" width="96" height="7" rx="3" fill="#cbd5e1"/>
+    <rect x="228" y="162" width="120" height="7" rx="3" fill="#86efac"/>
+    <rect x="212" y="178" width="60" height="7" rx="3" fill="#c084fc"/>
+    <rect x="196" y="194" width="40" height="7" rx="3" fill="#7dd3fc"/>
+    <rect x="196" y="214" width="180" height="20" rx="6" fill="#1e3a66"/>
+    <rect x="206" y="221" width="110" height="6" rx="3" fill="#93c5fd"/>
+  </g>
+  <!-- 화면 오른쪽 생성 이미지 미리보기 -->
+  <rect x="392" y="122" width="56" height="56" rx="4" fill="#f59e0b" opacity="0.85"/>
+  <circle cx="410" cy="140" r="8" fill="#fde68a"/>
+  <path d="M392 178 L412 156 L426 168 L436 158 L448 178 Z" fill="#7c2d12"/>
+
+  <!-- 노트북 본체와 책상 -->
+  <rect y="290" width="640" height="110" fill="url(#desk)"/>
+  <path d="M130 262 L510 262 L548 300 L92 300 Z" fill="url(#body)"/>
+  <path d="M286 286 L354 286 L358 296 L282 296 Z" fill="#9ea2aa"/>
+  <g fill="#5d6169" opacity="0.6">
+    <rect x="160" y="268" width="320" height="4" rx="2"/>
+    <rect x="152" y="276" width="336" height="4" rx="2"/>
+  </g>
+
+  <!-- 커피잔 -->
+  <ellipse cx="580" cy="322" rx="28" ry="8" fill="#1a130f"/>
+  <path d="M556 276 L604 276 L598 322 L562 322 Z" fill="#e7e5e4"/>
+  <ellipse cx="580" cy="276" rx="24" ry="6" fill="#3b2a20"/>
+  <path d="M604 286 Q622 292 602 308" stroke="#e7e5e4" stroke-width="5" fill="none"/>
+
+  <rect width="640" height="400" fill="url(#vignette)"/>
+</svg>
