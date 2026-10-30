@@ -6,7 +6,20 @@
  * 클래스 예: bg-primary, text-on-surface-variant, bg-tertiary-container, border-outline-variant
  */
 @theme {
-  --font-sans: var(--font-nanum-gothic), "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  /* 기본 폰트: 맑은 고딕 (Windows 기본). 맑은 고딕이 없는 Mac·iOS 등에서는 Apple SD Gothic Neo로 보인다. */
+  --font-sans: "Malgun Gothic", "맑은 고딕", "Apple SD Gothic Neo", sans-serif;
+
+  /* 글자 크기: Tailwind 기본값보다 2px씩 크게 (줄 높이도 함께) */
+  --text-xs: 0.875rem; /* 14px (기본 12px) */
+  --text-xs--line-height: calc(1.25 / 0.875);
+  --text-sm: 1rem; /* 16px (기본 14px) */
+  --text-sm--line-height: 1.5;
+  --text-base: 1.125rem; /* 18px (기본 16px) */
+  --text-base--line-height: calc(1.75 / 1.125);
+  --text-lg: 1.25rem; /* 20px (기본 18px) */
+  --text-lg--line-height: calc(1.75 / 1.25);
+  --text-xl: 1.375rem; /* 22px (기본 20px) */
+  --text-xl--line-height: calc(1.875 / 1.375);
 
   /* 포인트 컬러 */
   --color-primary: #ff2c2e;
@@ -78,7 +91,7 @@
   height: 40px;
   padding-inline: 24px;
   border-radius: 9999px;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 700;
   letter-spacing: 0.01em;
   white-space: nowrap;
@@ -149,7 +162,7 @@
   border: 1px solid var(--color-outline-variant);
   background: var(--color-surface);
   color: var(--color-on-surface-variant);
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 700;
   cursor: pointer;
   transition: background-color 150ms, border-color 150ms;
@@ -171,7 +184,7 @@
   border: 1px solid var(--color-outline);
   background: transparent;
   color: var(--color-on-surface);
-  font-size: 16px;
+  font-size: 18px;
   outline: none;
   &::placeholder {
     color: var(--color-on-surface-variant);

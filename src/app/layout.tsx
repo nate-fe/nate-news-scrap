@@ -1,15 +1,8 @@
 import type { Metadata } from "next";
-import { Nanum_Gothic } from "next/font/google";
 import { DialogProvider } from "@/components/dialog-provider";
 import "./globals.css";
 
-// 한글 글리프가 많아 미리 불러오지(preload) 않고, 필요한 글자 범위만 내려받게 둔다.
-const nanumGothic = Nanum_Gothic({
-  weight: ["400", "700", "800"],
-  variable: "--font-nanum-gothic",
-  display: "swap",
-  preload: false,
-});
+// 폰트: 맑은 고딕 (Windows 기본 폰트라 따로 내려받지 않는다. 지정은 globals.css의 --font-sans)
 
 export const metadata: Metadata = {
   title: {
@@ -21,8 +14,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="ko" className={`${nanumGothic.variable} h-full antialiased`}>
-      <body className="flex min-h-full flex-col bg-background font-sans text-on-surface">
+    <html lang="ko" className="h-full antialiased">
+      <body className="flex min-h-full flex-col bg-background font-sans text-base text-on-surface">
         {/* 헤더와 본문은 (scrap), (news) 그룹 레이아웃에서 각각 그린다 */}
         {/* 앱 공통 알림·확인 창 (브라우저 기본 alert/confirm 대신) */}
         <DialogProvider>{children}</DialogProvider>

@@ -80,12 +80,12 @@ function FolderTile({
           )}
         </span>
         <span
-          className={`mt-1 block truncate text-[11px] font-bold ${selected ? "text-primary" : "text-on-surface"}`}
+          className={`mt-1 block truncate text-[13px] font-bold ${selected ? "text-primary" : "text-on-surface"}`}
           title={name}
         >
           {name}
         </span>
-        <span className="block text-[10px] text-on-surface-variant">{count}개</span>
+        <span className="block text-[12px] text-on-surface-variant">{count}개</span>
       </Link>
     </li>
   );
