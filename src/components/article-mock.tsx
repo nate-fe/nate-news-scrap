@@ -30,7 +30,7 @@ export async function ArticleMock({ id }: { id: string }) {
   return (
     <div className="space-y-3">
       <article className="md-card p-5 sm:p-6">
-        <h1 className="mb-3 text-[28px] leading-9 font-extrabold">{article.title}</h1>
+        <h1 className="mb-3 text-[27px] leading-9 font-extrabold">{article.title}</h1>
         <div className="mb-4 flex flex-wrap items-center gap-2 text-sm text-on-surface-variant">
           <span>{article.pressName}</span>
           <span aria-hidden>·</span>
@@ -40,7 +40,7 @@ export async function ArticleMock({ id }: { id: string }) {
 
         {/* 반응 · 도구 줄 (네이트 뉴스 기사 상단과 같은 배치). 스크랩은 기존 'AI요약' 바로 왼쪽에 붙인다. */}
         <div className="mb-5 flex items-center justify-between gap-1.5 pt-6">
-          <div className="flex gap-1.5 text-[15px] font-bold text-on-surface sm:gap-2 sm:text-sm">
+          <div className="flex gap-1.5 text-[14px] font-bold text-on-surface sm:gap-2 sm:text-sm">
             <span className="flex h-9 items-center gap-1 rounded-full bg-surface-container-high px-2.5 sm:h-10 sm:gap-1.5 sm:px-3.5">
               <span aria-hidden>💬</span>
               {comments.length}
@@ -62,8 +62,8 @@ export async function ArticleMock({ id }: { id: string }) {
                 <Icon name="robot" size={20} />
               </span>
             </span>
-            <span aria-label="글자 크기" className={`${ARTICLE_TOOL_BUTTON} text-[17px] font-bold`}>
-              가<sup className="text-[12px]">+</sup>
+            <span aria-label="글자 크기" className={`${ARTICLE_TOOL_BUTTON} text-[16px] font-bold`}>
+              가<sup className="text-[11px]">+</sup>
             </span>
             <span aria-label="공유" className={ARTICLE_TOOL_BUTTON}>
               <Icon name="share" size={20} />

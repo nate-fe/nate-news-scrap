@@ -19,7 +19,7 @@ export function SiteHeader({ variant }: { variant: "scrap" | "news" }) {
           </span>
         </Link>
         {variant === "scrap" && (
-          <Link href="/guide/scrap" className="md-btn md-btn-outlined h-9 px-3 text-[15px] sm:px-4 sm:text-sm">
+          <Link href="/guide/scrap" className="md-btn md-btn-outlined h-9 px-3 text-[14px] sm:px-4 sm:text-sm">
             스크랩 하는 법(임시)
           </Link>
         )}

@@ -30,9 +30,12 @@ export function RankingPanel() {
 function PanelTitle({ icon, title }: { icon: IconName; title: string;}) {
   return (
     <div className="mb-3">
-      <h2 className="flex items-center gap-2 text-base font-extrabold text-on-surface">
-        <Icon name={icon} size={20} className="text-primary" />
-        {title}
+      {/* 한 줄 유지: 16px + 작은 아이콘으로 오른쪽 패널(320px) 폭에 맞추고, 그래도 넘치면 … 처리 */}
+      <h2 className="flex items-center gap-1.5 text-[16px] font-extrabold text-on-surface">
+        <Icon name={icon} size={18} className="text-primary" />
+        <span className="min-w-0 truncate" title={title}>
+          {title}
+        </span>
       </h2>
     </div>
   );
